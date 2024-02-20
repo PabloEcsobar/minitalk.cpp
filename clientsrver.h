@@ -6,11 +6,16 @@
 /*   By: blackrider <blackrider@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 11:30:27 by blackrider        #+#    #+#             */
-/*   Updated: 2024/02/19 13:20:30 by blackrider       ###   ########.fr       */
+/*   Updated: 2024/02/20 16:13:20 by blackrider       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
+
+extern "C"
+{
+	#include "libft/libft.h"
+}
 #include <iostream>
 #include <cstdlib>
 #include <csignal>
@@ -44,10 +49,12 @@ class Server
 	char				charackter;
 	int					counter;
 	struct sigaction	sa;
+	t_dllist			*dllst;
 	string				msg;
 	static Server*		instance;
-	void				handsigusr1(siginfo_t* si);
-	void				handsigusr0(siginfo_t* si);
+	t_dllist			*findpid(t_dllist *dllst, int pid);
+	void				handsigusr1(siginfo_t* si, t_dllist *dllst);
+	void				handsigusr0(siginfo_t* si, t_dllist *dllst);
 	void				sighadler(int signum, siginfo_t* si, void* unct);
 	static void			sighandler_s(int signum, siginfo_t* si, void* unct);
 public:
@@ -57,3 +64,6 @@ public:
 	void				getdata();
 	int					getpid_srv();
 };
+
+void					deldata(void *data);
+t_dllist    *dllistdelnode_test(t_dllist **dllst, void (*del)(void *));
